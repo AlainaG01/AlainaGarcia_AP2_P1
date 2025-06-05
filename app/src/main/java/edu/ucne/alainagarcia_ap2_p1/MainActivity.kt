@@ -12,15 +12,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
 import dagger.hilt.android.AndroidEntryPoint
+import edu.ucne.alainagarcia_ap2_p1.data.local.database.TareaDb
 import edu.ucne.alainagarcia_ap2_p1.presentation.navigation.HostNavigation
 import edu.ucne.alainagarcia_ap2_p1.ui.theme.AlainaGarcia_AP2_P1Theme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private lateinit var tareaDb : TareaDb
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        tareaDb = Room.databaseBuilder(
+            applicationContext,
+            TareaDb::class.java,
+            "Tarea.db"
+        ).fallbackToDestructiveMigration()
+            .build()
+
         setContent {
             AlainaGarcia_AP2_P1Theme {
                 val nav = rememberNavController()
